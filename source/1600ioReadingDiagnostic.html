@@ -1,6 +1,6 @@
 <div class="body">
     <link
-        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.bf90a78aa.css"
+        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.1a7badfc0.css"
         rel="stylesheet" />
 
     <script src="https://cdn.jsdelivr.net/npm/pdfmake@latest/build/pdfmake.min.js"></script>
@@ -378,6 +378,7 @@
 
         var tree;
         var checkedReasonsCount=0;
+        var checkedReasons=[];
         $(function () {
             functions.httpsCallable("getTree")().then(result => {
                 tree = result.data;
@@ -398,14 +399,22 @@
                 $("#modal-container").removeClass("hide-element");
             })
             $("#submit-button").click(()=>{
-                if (!$("#submit-button").hasClass("disabled"))
+                if (!$("#submit-button").hasClass("disabled")){
+                    compileSelectedReasons();
                     generatePDF();
+                }
             })
 
             function toggleSubmitButton(){
                 if(checkedReasonsCount===0)
                     $("#submit-button").addClass("disabled");
                 else $("#submit-button").removeClass("disabled");
+            }
+
+            function compileSelectedReasons(){
+                for(let reason in tree.reasons)
+                    if(tree.reasons[reason].selected===true)
+                        checkedReasons.push(tree.reasons[reason]);
             }
 
             function generatePDF(){
