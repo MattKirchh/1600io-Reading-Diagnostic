@@ -1,6 +1,6 @@
 <div class="body">
     <link
-        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.1a7badfc0.css"
+        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.f97f352b5.css"
         rel="stylesheet" />
 
     <script src="https://cdn.jsdelivr.net/npm/pdfmake@latest/build/pdfmake.min.js"></script>
@@ -36,7 +36,7 @@
         }
 
         /* 1424 for lecture | 992 for own page */
-        @media (max-width: 992px) {
+        @media (max-width: 1424px) {
             .document-output {
                 order: 2;
                 position: static;
@@ -377,47 +377,47 @@
         };
 
         var tree;
-        var checkedReasonsCount=0;
-        var checkedReasons=[];
+        var checkedReasonsCount = 0;
+        var checkedReasons = [];
         $(function () {
             functions.httpsCallable("getTree")().then(result => {
                 tree = result.data;
-                for (let rIndex = 1; rIndex < tree.count+1; rIndex++){
-                    $("#reasons-list").append(
+                for (let rIndex = 1; rIndex < tree.count + 1; rIndex++) {
+                    $(`#rlist-${(rIndex%2)+1}`).append(
                         `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}">${tree.reasons["reason_"+rIndex].reason}</label></div></li>`
-                        );
-                    $(`input#reason_${rIndex}`).click( () =>{
-                        let checked=$(`input#reason_${rIndex}`).is(":checked");
-                        tree.reasons[`reason_${rIndex}`].selected=checked;
-                        if(checked===true){
+                    );
+                    $(`input#reason_${rIndex}`).click(() => {
+                        let checked = $(`input#reason_${rIndex}`).is(":checked");
+                        tree.reasons[`reason_${rIndex}`].selected = checked;
+                        if (checked === true) {
                             checkedReasonsCount++;
-                        }else checkedReasonsCount--;
+                        } else checkedReasonsCount--;
                         toggleSubmitButton();
                     })
                 }
                 $("#modal-container").addClass("show-element");
                 $("#modal-container").removeClass("hide-element");
             })
-            $("#submit-button").click(()=>{
-                if (!$("#submit-button").hasClass("disabled")){
+            $("#submit-button").click(() => {
+                if (!$("#submit-button").hasClass("disabled")) {
                     compileSelectedReasons();
                     generatePDF();
                 }
             })
 
-            function toggleSubmitButton(){
-                if(checkedReasonsCount===0)
+            function toggleSubmitButton() {
+                if (checkedReasonsCount === 0)
                     $("#submit-button").addClass("disabled");
                 else $("#submit-button").removeClass("disabled");
             }
 
-            function compileSelectedReasons(){
-                for(let reason in tree.reasons)
-                    if(tree.reasons[reason].selected===true)
+            function compileSelectedReasons() {
+                for (let reason in tree.reasons)
+                    if (tree.reasons[reason].selected === true)
                         checkedReasons.push(tree.reasons[reason]);
             }
 
-            function generatePDF(){
+            function generatePDF() {
                 pdfMake.fonts = {
                     Roboto: {
                         normal: 'Roboto-Regular.ttf',
@@ -541,11 +541,17 @@
                 click “Perform Analysis &amp; Generate Report” to create your personalized analysis and recommendations
                 PDF.</div>
             <div class="modal-body">
-                <ul role="list" class="reasons-list" id="reasons-list"></ul>
+                <div class="columns w-row">
+                    <div class="questions-column w-col w-col-6" id="col-1">
+                        <ul role="list" class="reasons-list" id="rlist-1"></ul>
+                    </div>
+                    <div class="questions-column w-col w-col-6" id="col-2">
+                        <ul role="list" class="reasons-list" id="rlist-2"></ul>
+                    </div>
+                </div>
                 <div class="submit-button-container">
                     <a class="submitbutton w-button disabled" id="submit-button">Perform Analysis &amp; Generate Report</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
