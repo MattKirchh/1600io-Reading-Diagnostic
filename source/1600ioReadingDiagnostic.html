@@ -9,7 +9,6 @@
     <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-functions.js"></script>
 
-
     <style>
         @font-face {
             font-family: "Raleway";
@@ -382,7 +381,7 @@
         $(function () {
             functions.httpsCallable("getTree")().then(result => {
                 tree = result.data;
-                for (let rIndex = 1; rIndex < tree.count + 1; rIndex++) {
+                for (let rIndex = 1; rIndex < tree.reasons_count + 1; rIndex++) {
                     $(`#rlist-${(rIndex%2)+1}`).append(
                         `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}">${tree.reasons["reason_"+rIndex].reason}</label></div></li>`
                     );
