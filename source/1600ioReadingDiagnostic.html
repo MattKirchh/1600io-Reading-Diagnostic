@@ -382,29 +382,33 @@
         $(function () {
             functions.httpsCallable("getTree")().then(result => {
                 tree = result.data;
-                for (let rIndex = 1; rIndex < tree.reasons_count + 1; rIndex++) {
+                console.log(tree.causes)
+                for (let rIndex = 1; rIndex < tree.reasons_count+1; rIndex++) {
                     $(`#rlist-${(rIndex%2)+1}`).append(
-                        `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}">${tree.reasons["reason_"+rIndex].reason}</label></div></li>`
+                        `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}">${tree.reasons[rIndex].question}</label></div></li>`
                     );
+                    tree.reasons[rIndex].selected=false;
                     $(`input#reason_${rIndex}`).click(() => {
                         let checked = $(`input#reason_${rIndex}`).is(":checked");
-                        tree.reasons[`reason_${rIndex}`].selected = checked;
+                        tree.reasons[rIndex].selected = checked;
                         if (checked === true) {
                             checkedReasonsCount++;
                         } else checkedReasonsCount--;
                         toggleSubmitButton();
                     })
                 }
+
+                $("#submit-button").click(() => {
+                    if (!$("#submit-button").hasClass("disabled")) {
+                        compileSelectedReasons();
+                        generatePDF();
+                    }
+                })
+
                 $("#modal-container").addClass("show-element");
                 $("#modal-container").removeClass("hide-element");
             })
-            $("#submit-button").click(() => {
-                if (!$("#submit-button").hasClass("disabled")) {
-                    compileSelectedReasons();
-                    generatePDF();
-                }
-            })
-
+            
             function toggleSubmitButton() {
                 if (checkedReasonsCount === 0)
                     $("#submit-button").addClass("disabled");
@@ -414,9 +418,10 @@
             function compileSelectedReasons() {
                 checkedReasons = [];
                 reasonsGroupedByCauses = {};
-                for (let reason in tree.reasons)
-                    if (tree.reasons[reason].selected === true)
-                        checkedReasons.push(tree.reasons[reason]);
+                for (let rIndex=1;rIndex<tree.reasons_count+1;rIndex++)
+                    if (tree.reasons[rIndex].selected === true)
+                        checkedReasons.push(tree.reasons[rIndex]);
+                console.log(checkedReasons)
                 for (let reason of checkedReasons) {
                     if (reasonsGroupedByCauses[reason.causes] === undefined)
                         reasonsGroupedByCauses[reason.causes] = [];
@@ -569,10 +574,7 @@
                 addLineBreak(data.content)
 
                 //TODO: Write algorithm to write causes and reasons
-                for(let causes in reasonsGroupedByCauses){
-                    let reasons=reasonsGroupedByCauses[causes];
-
-                }
+                
 
                 addText(data.content,"General Advice for Reading Section Improvement","h1")
                 addText(data.content,"The SAT does an outstanding job of assessing your academic skills within the scope of the test, and the reading section is no exception. The reading section, just as with the rest of the test, cannot be effectively “gamed” and there are no secret “tricks” for making major gains, because in the end, you cannot escape the test’s exquisite ability to determine your level of reading comprehension skill.")
@@ -719,6 +721,9 @@
                     color: "blue"
                 }
             }
+
+            
+
         });
     </script>
     <iframe class="document-output hide-element shadow" id="pdf-output"></iframe>
