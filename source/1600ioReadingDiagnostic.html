@@ -352,7 +352,7 @@
             name: "1600.io Reading Diagnostic Tool",
             author: "Matthew Kirchheimer",
             description: "Reading Diagnostic Tool for 1600.io",
-            version: "0.1",
+            version: "1.0",
             url: ""
         };
         var firebaseConfig = {
@@ -382,7 +382,6 @@
         $(function () {
             functions.httpsCallable("getTree")().then(result => {
                 tree = result.data;
-                console.log(tree.causes)
                 for (let rIndex = 1; rIndex < tree.reasons_count+1; rIndex++) {
                     $(`#rlist-${(rIndex%2)+1}`).append(
                         `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}">${tree.reasons[rIndex].question}</label></div></li>`
@@ -421,14 +420,11 @@
                 for (let rIndex=1;rIndex<tree.reasons_count+1;rIndex++)
                     if (tree.reasons[rIndex].selected === true)
                         checkedReasons.push(tree.reasons[rIndex]);
-                console.log(checkedReasons)
                 for (let reason of checkedReasons) {
                     if (reasonsGroupedByCauses[reason.causes] === undefined)
                         reasonsGroupedByCauses[reason.causes] = [];
                     reasonsGroupedByCauses[reason.causes].push(reason.reason);
-                }
-                console.log(reasonsGroupedByCauses)
-                
+                }                
             }
 
             function generatePDF() {
@@ -517,6 +513,9 @@
                         i2: {
                             margin: [80,0,0,0]
                         },
+                        bold: {
+                            bold: true
+                        }
                     },
                     defaultStyle: {
                         font: "Roboto",
@@ -574,7 +573,7 @@
                 addLineBreak(data.content)
 
                 //TODO: Write algorithm to write causes and reasons
-                
+                addAnalysis(data.content,reasonsGroupedByCauses)
 
                 addText(data.content,"General Advice for Reading Section Improvement","h1")
                 addText(data.content,"The SAT does an outstanding job of assessing your academic skills within the scope of the test, and the reading section is no exception. The reading section, just as with the rest of the test, cannot be effectively “gamed” and there are no secret “tricks” for making major gains, because in the end, you cannot escape the test’s exquisite ability to determine your level of reading comprehension skill.")
@@ -589,15 +588,15 @@
                 addLineBreak(data.content)
                 addText(data.content,"Doing lots of math problems of the sort found on the SAT is good practice for doing math problems on the SAT. Each SAT has 58 math problems of every (or nearly every) math topic the test is intended to assess. Therefore, using the math sections of practice tests for practice is efficient. The test problems are serving two distinct purposes well: providing the repetition needed to produce proficiency, and also giving an indication of how well the student is doing overall on the math sections of the test while providing feedback on which topics the student needs to learn more thoroughly.")
                 addLineBreak(data.content)
-                addText(data.content,"This is deceptive, because it naturally produces the belief that as a general principle, those two functions are inseparable. But they're not, and, in fact, there can be only a small overlap between them, as in the case of the reading section. By contrast with the math section, the reading portion of the test doesn't provide significant reading practice, because it can't: the entire reading section consists of five passages, equivalent in length to perhaps 10 or 15 pages from a book, if that. According to the College Board, the reading section on one test has a total of about 3,250 words; a student could take 20 practice tests (65,000 words) and only have gotten reading practice equivalent to reading one short book such as \"The Catcher in the Rye\" (70,000 words), which is negligible in the scheme of things.")
+                addText(data.content,["This is deceptive, because it naturally produces the belief that as a general principle, those two functions are inseparable. But they're not, and, in fact, there can be only a small overlap between them, as in the case of the reading section. By contrast with the math section, ",bold(data.content,"the reading portion of the test doesn't provide significant reading practice,")," because it can't: the entire reading section consists of five passages, equivalent in length to perhaps 10 or 15 pages from a book, if that. According to the College Board, the reading section on one test has a total of about 3,250 words; a student could take 20 practice tests (65,000 words) and only have gotten reading practice equivalent to reading one short book such as \"The Catcher in the Rye\" (70,000 words), which is negligible in the scheme of things."])
                 addLineBreak(data.content)
-                addText(data.content,"The reading section of the test is just an assessment (as it is intended to be); it is not suitable for reading practice. Of course, it's good practice for learning one's way around the format of the test, and for becoming familiar with the types of questions that can be asked, but it's essentially worthless when it comes to serving as practice for the underlying skill being tested: reading comprehension.")
+                addText(data.content,["The reading section of the test is just an assessment (as it is intended to be); it is not suitable for reading practice. Of course, it's good practice for learning one's way around the format of the test, and for becoming familiar with the types of questions that can be asked, ", bold(data.content,"but it's essentially worthless when it comes to serving as practice for the underlying skill being tested: reading comprehension.")])
                 addLineBreak(data.content)
-                addText(data.content,"I liken it to a sports tryout, which serves as an assessment of the athletes skills. At such a tryout, each athlete performs a set of activities while being observed or measured. They might run a sprint, throw a ball, catch a pass, dribble around cones. They're being assessed, but no one would ever think that going through a bunch of tryouts is an optimal training regimen. For every sprint run in a tryout, an athlete might have run 1,000 sprints during training – and done work with weights, honed technique, and so on. The tryout is a performance, an assessment, a test--it's not training or practice.")
+                addText(data.content,["I liken it to a sports tryout, which serves as an assessment of the athletes skills. At such a tryout, each athlete performs a set of activities while being observed or measured. They might run a sprint, throw a ball, catch a pass, dribble around cones. They're being assessed, but no one would ever think that going through a bunch of tryouts is an optimal training regimen. For every sprint run in a tryout, an athlete might have run 1,000 sprints during training – and done work with weights, honed technique, and so on. ",bold(data.content,"The tryout is a performance, an assessment, a test--it's not training or practice.")])
                 addLineBreak(data.content)
-                addText(data.content,"In the math section, when a student gets a problem wrong, there's an immediate opportunity to acquire the needed skill, and a reasonable probability that the next time a problem pertaining to the same topic is encountered, it will be solved properly. With reading, though a student might understand why a specific question has a different answer than the one they selected, that experience contributes essentially nothing to enhancing the underlying skill of reading comprehension, which comes from actually reading, not from being tested on reading.")
+                addText(data.content,["In the math section, when a student gets a problem wrong, there's an immediate opportunity to acquire the needed skill, and a reasonable probability that the next time a problem pertaining to the same topic is encountered, it will be solved properly. With reading, though a student might understand why a specific question has a different answer than the one they selected, ",bold(data.content,"that experience contributes essentially nothing to enhancing the underlying skill of reading comprehension, which comes from actually reading, not from being tested on reading.")])
                 addLineBreak(data.content)
-                addText(data.content,"This stark difference in the practice value of the math and the reading sections on the SAT is at least partially responsible for a lot of confusion, frustration, and depression among students preparing for the SAT. They take math section after math section, and their scores increase. They get faster at what they know, and they learn what they don't. At the same time, they're taking reading section after reading section, and they see little or no improvement. They're engaging in what appears to be exactly the same type of activity, but they’re not seeing similar results. The problem is that they're mistaking assessment for practice when it comes to the reading section. To improve in reading--to really improve, not just to optimize the test-taking part of the game--requires practicing reading, not practicing taking the reading section of the SAT.")
+                addText(data.content,["This stark difference in the practice value of the math and the reading sections on the SAT is at least partially responsible for a lot of confusion, frustration, and depression among students preparing for the SAT. They take math section after math section, and their scores increase. They get faster at what they know, and they learn what they don't. At the same time, they're taking reading section after reading section, and they see little or no improvement. They're engaging in what appears to be exactly the same type of activity, but they’re not seeing similar results. The problem is that ",bold(data.content,"they're mistaking assessment for practice")," when it comes to the reading section. ",bold(data.content,"To improve in reading--to really improve, not just to optimize the test-taking part of the game--requires practicing reading, not practicing taking the reading section of the SAT.")])
                 addLineBreak(data.content)
 
                 addText(data.content,"Activities for improving basic comprehension skills","h2")
@@ -699,11 +698,19 @@
                 })
             }
 
-            function addList(content,items,style=""){
+            function addList(content,items,style="",start=1){
                 content.push({
+                    start: start,
                     ol: items,
                     style: style
                 })
+            }
+
+            function bold(content,text){
+                return {
+                    text: text,
+                    style: "bold"
+                }
             }
 
             function buildSubList(items){
@@ -722,8 +729,33 @@
                 }
             }
 
-            
+            function addCause(content,cause,index){
+                addLineBreak(content)
+                addText(content,
+                    [
+                        bold(content,`Cause ${index}:`),
+                        ` ${cause.cause}`
+                    ],"i1")
+                addLineBreak(content)
+                addText(content,`Discussion: ${cause.discussion}`,"i2")
+                addLineBreak(content)
+                addText(content,`Recommendation: ${cause.recommendation}`,"i2")
+                addLineBreak(content)
+            }
 
+            function addAnalysis(content,data){
+                let rCount=1
+                for(let causes in data){
+                    let reasons=data[causes];
+                    for(let rIndex=0;rIndex<reasons.length-1;rIndex++)
+                        reasons[rIndex]+=", or"
+                    addList(content,reasons,"i1",rCount)
+                    rCount+=reasons.length
+                    let causeList=causes.split(",")
+                    for(let cIndex=0;cIndex<causeList.length;cIndex++)
+                        addCause(content,tree.causes[parseInt(causeList[cIndex])],cIndex+1)
+                }
+            }
         });
     </script>
     <iframe class="document-output hide-element shadow" id="pdf-output"></iframe>
