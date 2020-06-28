@@ -585,7 +585,13 @@
                             :
                             addParagraph(content,data,`i${iLevel}`))
                         :
-                        (data.style=="plain" ? parseSubSection(content,data,hLevel+1,data.indent==true ? iLevel+1 : iLevel) : data.style=="list" ? parseList(content,data.content) : null))
+                        (data.style=="plain" ?
+                            parseSubSection(content,data,hLevel+1,data.indent==true ? iLevel+1 : iLevel)
+                            :
+                            data.style=="list" ?
+                                parseList(content,data.content)
+                                :
+                                null))
             }
 
             function parseList(content,items){
