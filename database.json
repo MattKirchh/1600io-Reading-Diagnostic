@@ -1,5 +1,4 @@
 {
-    "reasons_count": 14,
     "reasons": [
         {
 
@@ -91,7 +90,7 @@
         },
         {
             "question": "Does it seem that some questions ask about inferences or assumptions, and your interpretations are different from the test-makers'?",
-            "reason": "Tt seems that some questions ask about inferences or assumptions, and your interpretations are different from the test-makers'",
+            "reason": "It seems that some questions ask about inferences or assumptions, and your interpretations are different from the test-makers'",
             "causes": [
                 14
             ]
