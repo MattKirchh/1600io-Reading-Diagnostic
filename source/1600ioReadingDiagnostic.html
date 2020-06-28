@@ -457,10 +457,10 @@
                     footer: function (currentPage, pageCount) {
                         return {
                             table: {
-                                widths: [20,"*"],
+                                widths: [100,"*"],
                                 body: [
                                     [{
-                                            text: currentPage.toString(),
+                                            text: `Page ${currentPage.toString()}`,
                                             alignment: 'left',
                                             margin: [50, 20, 0, 0],
                                             fontSize: 10
