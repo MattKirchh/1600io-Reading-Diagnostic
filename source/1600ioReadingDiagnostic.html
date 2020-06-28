@@ -443,7 +443,7 @@
                         title: "SAT\u00AE Reading Section Recommendations Report",
                         author: "1600.io"
                     },
-                    pageMargins: [40, 40, 40, 40],
+                    pageMargins: [50, 60, 50, 80],
                     pageSize: "LETTER",
                     lineHeight: 2.5,
                     background: function (currentPage, pageSize) {
@@ -457,12 +457,12 @@
                     footer: function (currentPage, pageCount) {
                         return {
                             table: {
-                                widths: '*',
+                                widths: [20,"*"],
                                 body: [
                                     [{
                                             text: currentPage.toString(),
                                             alignment: 'left',
-                                            margin: [10, 20, 0, 0],
+                                            margin: [50, 20, 0, 0],
                                             fontSize: 10
                                         },
                                         {
@@ -470,7 +470,7 @@
                                                 " Copyright \u00A9 " +
                                                 new Date().getFullYear() + " 1600.io",
                                             alignment: 'right',
-                                            margin: [0, 20, 10, 0],
+                                            margin: [0, 20, 50, 0],
                                             fontSize: 10
                                         },
                                     ]
@@ -552,8 +552,7 @@
                 })
 
                 let date = new Date();
-                addText(data.content, "Report prepared on " + date.toLocaleDateString() + " at " + date
-                    .toLocaleTimeString(), "sub2")
+                addText(data.content, "Report prepared on " + date.toLocaleDateString() + " at " + date.toLocaleTimeString(), "sub2")
                 addLineBreak(data.content)
 
                 parseSections(data.content,database.sections)
@@ -581,7 +580,13 @@
             function parseSubSection(content,section,hLevel=1,iLevel=1){
                 addHeader(content,section.title,[`h${hLevel}`,`i${iLevel}`])
                 for(let data of section.content)
-                    (typeof data==="string" ? (data==="$" ? addAnalysis(content,reasonsGroupedByCauses) : addParagraph(content,data,`i${iLevel}`)) : (data.style=="plain" ? parseSubSection(content,data,hLevel+1,data.indent==true ? iLevel+1 : iLevel) : data.style=="list" ? parseList(content,data.content) : null))
+                    (typeof data==="string" ?
+                        (data==="$" ?
+                            addAnalysis(content,reasonsGroupedByCauses)
+                            :
+                            addParagraph(content,data,`i${iLevel}`))
+                        :
+                        (data.style=="plain" ? parseSubSection(content,data,hLevel+1,data.indent==true ? iLevel+1 : iLevel) : data.style=="list" ? parseList(content,data.content) : null))
             }
 
             function parseList(content,items){
