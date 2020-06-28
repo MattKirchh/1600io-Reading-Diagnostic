@@ -443,7 +443,7 @@
                         title: "SAT\u00AE Reading Section Recommendations Report",
                         author: "1600.io"
                     },
-                    pageMargins: [40, 20, 40, 20],
+                    pageMargins: [40, 40, 40, 40],
                     pageSize: "LETTER",
                     lineHeight: 2.5,
                     background: function (currentPage, pageSize) {
@@ -462,7 +462,7 @@
                                     [{
                                             text: currentPage.toString(),
                                             alignment: 'left',
-                                            margin: [10, 0],
+                                            margin: [10, 20, 0, 0],
                                             fontSize: 10
                                         },
                                         {
@@ -470,7 +470,7 @@
                                                 " Copyright \u00A9 " +
                                                 new Date().getFullYear() + " 1600.io",
                                             alignment: 'right',
-                                            margin: [0, 0, 10, 0],
+                                            margin: [0, 20, 10, 0],
                                             fontSize: 10
                                         },
                                     ]
