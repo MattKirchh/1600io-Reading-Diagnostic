@@ -263,7 +263,7 @@
             display: inline-block;
         }
 
-        .md-checkbox label {
+        .md-checkbox label div {
             cursor: pointer;
             display: inline;
             line-height: 1.25em;
@@ -272,7 +272,7 @@
             padding-left: 1px;
         }
 
-        .md-checkbox label:not(:empty) {
+        .md-checkbox label div:not(:empty) {
             padding-left: 0.75em;
         }
 
@@ -385,7 +385,7 @@
                 $("#description").text(database.description);
                 for (let rIndex = 1; rIndex < database.reasons.length; rIndex++) {
                     $(`#rlist-${(rIndex%2)+1}`).append(
-                        `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}">${database.reasons[rIndex].question}</label></div></li>`
+                        `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}"><div>${database.reasons[rIndex].question}</div></label></div></li>`
                     );
                     database.reasons[rIndex].selected = false;
                     $(`input#reason_${rIndex}`).click(() => {
