@@ -660,7 +660,7 @@
 
             function addCause(content, cause, index) {
                 addLineBreak(content)
-                addText(content,[bold(content, `Cause ${index}:`),` ${cause.cause}`], "i1")
+                addText(content,[bold(content, `Cause${index}:`),` ${cause.cause}`], "i1")
                 addLineBreak(content)
                 addText(content, [bold(content, `Discussion:`), ` ${cause.discussion}`], "i2")
                 addLineBreak(content)
@@ -679,8 +679,11 @@
                     addList(content, reasons, "i1", rCount)
                     rCount += reasons.length
                     let causeList = causes.split(",")
+                    if(causeList.length==1)
+                        addCause(content, database.causes[causes], "")
+                    else
                     for (let cIndex = 0; cIndex < causeList.length; cIndex++)
-                        addCause(content, database.causes[parseInt(causeList[cIndex])], cIndex + 1)
+                        addCause(content, database.causes[parseInt(causeList[cIndex])], ` ${cIndex + 1}`)
                 }
             }
         });
