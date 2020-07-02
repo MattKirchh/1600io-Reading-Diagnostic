@@ -349,10 +349,8 @@
     </style>
     <script>
         var info = {
-            name: "1600.io Reading Diagnostic Tool",
             author: "Matthew Kirchheimer",
-            description: "Reading Diagnostic Tool for 1600.io",
-            version: "1.1",
+            version: "1.2",
             url: ""
         };
         var firebaseConfig = {
@@ -382,10 +380,11 @@
         $(function () {
             functions.httpsCallable("getTree")().then(result => {
                 database = result.data;
-                $("#description").text(database.description);
+                $("#form_title").html(parseVariables(database.form_title));
+                $("#description").html(parseVariables(database.description));
                 for (let rIndex = 1; rIndex < database.reasons.length; rIndex++) {
                     $(`#rlist-${(rIndex%2)+1}`).append(
-                        `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}"><div>${database.reasons[rIndex].question}</div></label></div></li>`
+                        `<li class="reason"> <div class="md-checkbox" id="reason_${rIndex}_div"><input type="checkbox" id="reason_${rIndex}"><label for="reason_${rIndex}"><div>${parseVariables(database.reasons[rIndex].question)}</div></label></div></li>`
                     );
                     database.reasons[rIndex].selected = false;
                     $(`input#reason_${rIndex}`).click(() => {
@@ -481,7 +480,7 @@
                         };
                     },
                     content: [{
-                        text: parseVariables(database.title),
+                        text: parseVariables(database.report_title),
                         style: "title"
                     }],
                     styles: {
@@ -704,7 +703,7 @@
                     width="100"
                     srcset="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/5eceaf1bd4f2a541e4b7e481_1600io-p-500.png 500w, https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/5eceaf1bd4f2a541e4b7e481_1600io-p-800.png 800w, https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/5eceaf1bd4f2a541e4b7e481_1600io.png 1024w"
                     sizes="100px" alt="" class="logo" />
-                <h1 class="heading">1600.io SAT&#174; Reading Diagnostic Tool</h1>
+                <h1 class="heading" id="form_title"></h1>
             </div>
             <div class="modal-subheader" id="description"></div>
             <div class="modal-body">
