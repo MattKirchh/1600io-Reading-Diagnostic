@@ -1,6 +1,6 @@
 <div class="body">
     <link
-        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.420f9e8fc.css"
+        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.93b28954b.css"
         rel="stylesheet" />
 
     <script src="https://cdn.jsdelivr.net/npm/pdfmake@latest/build/pdfmake.min.js"></script>
@@ -35,7 +35,7 @@
             user-select: none;
         }
 
-        .submitbutton:not(.disabled):active {
+        .submitbutton:not(.disabled):active, .halfbutton:active {
             box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
         }
 
@@ -74,7 +74,6 @@
                 margin-top: 20px;
                 margin-bottom: 20px;
             }
-
         }
 
         .shadow {
@@ -408,6 +407,24 @@
                     }
                 })
 
+                $("#select-all").click(() =>{
+                    for (let rIndex = 1; rIndex < database.reasons.length; rIndex++){
+                        $(`input#reason_${rIndex}`).prop("checked",true);
+                        database.reasons[rIndex].selected=true;
+                    }
+                    checkedReasonsCount=database.reasons.length;
+                    toggleSubmitButton();
+                })
+
+                $("#deselect-all").click(() =>{
+                    for (let rIndex = 1; rIndex < database.reasons.length; rIndex++){
+                        $(`input#reason_${rIndex}`).prop("checked",false);
+                        database.reasons[rIndex].selected=false;
+                    }
+                    checkedReasonsCount=0;
+                    toggleSubmitButton();
+                })
+
                 $("#modal-container").addClass("show-element");
                 $("#modal-container").removeClass("hide-element");
 
@@ -711,6 +728,10 @@
             </div>
             <div class="modal-subheader" id="description"></div>
             <div class="modal-body">
+                <div class="columns-2 w-row">
+                    <div class="button-column w-col w-col-6"><a class="halfbutton w-button" id="select-all">Select All</a></div>
+                    <div class="button-column w-col w-col-6"><a class="halfbutton w-button" id="deselect-all">Deselect All</a></div>
+                </div>
                 <div class="columns w-row">
                     <div class="questions-column w-col w-col-6" id="col-1">
                         <ul role="list" class="reasons-list" id="rlist-1"></ul>
@@ -719,10 +740,12 @@
                         <ul role="list" class="reasons-list" id="rlist-2"></ul>
                     </div>
                 </div>
-                <div class="submit-button-container">
-                    <a class="submitbutton w-button disabled" id="submit-button">Perform Analysis &amp; Generate
-                        Report</a>
+            </div>
+            <div class="modal-footer">
+                <div class="button-container">
+                    <a class="submitbutton w-button disabled" id="submit-button">Perform Analysis &amp; Generate Report</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
