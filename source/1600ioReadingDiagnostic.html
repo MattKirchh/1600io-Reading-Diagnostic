@@ -407,6 +407,9 @@
 
                 $("#modal-container").addClass("show-element");
                 $("#modal-container").removeClass("hide-element");
+
+                info.name=database.variables.long_name;
+                info.description=database.variables.long_name+" for 1600.io"
             })
 
             function toggleSubmitButton() {
@@ -466,9 +469,7 @@
                                             fontSize: 10
                                         },
                                         {
-                                            text: "SATReadingDiagnosticTool V" + info.version +
-                                                " Copyright \u00A9 " +
-                                                new Date().getFullYear() + " 1600.io",
+                                            text: `${database.variables.short_name} V ${info.version} Copyright \u00A9 2020 - ${new Date().getFullYear()} 1600.io`,
                                             alignment: 'right',
                                             margin: [0, 20, 50, 0],
                                             fontSize: 10
@@ -480,7 +481,7 @@
                         };
                     },
                     content: [{
-                        text: "1600.io ReaDiag™ SAT\u2122 Reading Section Autodiagnostic",
+                        text: parseVariables(database.title),
                         style: "title"
                     }],
                     styles: {
@@ -551,7 +552,7 @@
                 })
 
                 let date = new Date();
-                addText(data.content, "Report prepared on " + date.toLocaleDateString() + " at " + date.toLocaleTimeString(), "sub2")
+                addText(data.content, `Report prepared on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`, "sub2")
                 addLineBreak(data.content)
 
                 parseSections(data.content,database.sections)
@@ -570,6 +571,12 @@
                             });
                     }
                 });
+            }
+
+            function parseVariables(text){
+                for(let vars in database.variables)
+                    text=text.replace(`\$${vars}`,database.variables[vars])
+                return text;
             }
 
             function parseSections(content,sections){
@@ -620,6 +627,7 @@
             }
 
             function addParagraph(content, text, style = "") {
+                text=parseVariables(text)
                 content.push({
                     text: text,
                     style: style
