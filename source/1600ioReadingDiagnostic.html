@@ -1,6 +1,6 @@
 <div class="body">
     <link
-        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.f97f352b5.css"
+        href="https://uploads-ssl.webflow.com/5eceaf1bd4f2a5064ab7e47a/css/1600-io-reading-diagnostic.webflow.420f9e8fc.css"
         rel="stylesheet" />
 
     <script src="https://cdn.jsdelivr.net/npm/pdfmake@latest/build/pdfmake.min.js"></script>
@@ -22,6 +22,11 @@
             line-height: 1.42857143;
         }
 
+        .modal-container{
+            min-width: calc(.85 * 960px);
+            max-width: calc(.85 * 960px);
+        }
+
         .noselect {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -34,8 +39,7 @@
             box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
         }
 
-        /* 1424 for lecture | 992 for own page */
-        @media (max-width: 1424px) {
+        @media (max-width: 1755px) {
             .document-output {
                 order: 2;
                 position: static;
@@ -63,7 +67,7 @@
             .modal-container {
                 flex: 0 auto;
                 left: 0%;
-
+                min-width: 410px;
             }
 
             .modal-container.left {
