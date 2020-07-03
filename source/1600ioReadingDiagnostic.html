@@ -412,7 +412,7 @@
                         $(`input#reason_${rIndex}`).prop("checked",true);
                         database.reasons[rIndex].selected=true;
                     }
-                    checkedReasonsCount=database.reasons.length;
+                    checkedReasonsCount=database.reasons.length-1;
                     toggleSubmitButton();
                 })
 
